@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Chart Predictor — Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero__logo" aria-hidden="true">◆</div>
+        <div class="hero__text">
+          <h1>AI Chart Predictor</h1>
+          <p>Bring your own AI key. The extension screenshots the active chart, asks a vision model for technical analysis, and draws the answer back on top of your chart.</p>
+        </div>
+        <span class="hero__version" id="version">v1.0.0</span>
+      </header>
+
+      <main class="grid">
+        <!-- ---------------------------------------------------------- -->
+        <!-- Provider + key                                             -->
+        <!-- ---------------------------------------------------------- -->
+        <section class="card card--wide" aria-labelledby="provider-title">
+          <div class="card__head">
+            <h2 id="provider-title">AI provider</h2>
+            <span class="pill" id="key-state">no key saved</span>
+          </div>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>Provider</span>
+              <select id="provider"></select>
+            </label>
+
+            <div class="field">
+              <span>Model</span>
+              <div class="model-row">
+                <input id="model" type="text" list="model-list" spellcheck="false" autocomplete="off" placeholder="model name" />
+                <button type="button" class="btn btn--quiet" id="reset-model" title="Use the recommended model">Reset</button>
+              </div>
+              <datalist id="model-list"></datalist>
+            </div>
+
+            <label class="field" id="base-url-field" hidden>
+              <span>Base URL</span>
+              <input id="base-url" type="text" spellcheck="false" autocomplete="off" placeholder="https://api.openai.com/v1" />
+              <small>OpenAI-compatible endpoint, e.g. <code>http://localhost:11434/v1</code> for Ollama.</small>
+            </label>
+
+            <div class="field">
+              <span>API key</span>
+              <div class="key-row">
+                <input id="api-key" type="password" spellcheck="false" autocomplete="off" placeholder="paste your key" />
+                <button type="button" class="btn btn--quiet" id="toggle-key" aria-pressed="false">Show</button>
+              </div>
+              <small>
+                Stored in <code>chrome.storage.local</code> only. It is sent to your chosen provider and nowhere else.
+                <a id="docs-link" href="#" target="_blank" rel="noreferrer noopener">Get a key →</a>
+              </small>
+            </div>
+          </div>
+
+          <div class="note" id="provider-note" hidden></div>
+          <div class="vision" id="vision" hidden></div>
+
+          <div class="test-row">
+            <label class="file-field">
+              <span>Test image (optional)</span>
+              <input id="test-image" type="file" accept="image/png,image/jpeg,image/webp" />
+            </label>
+            <div class="test-actions">
+              <button type="button" class="btn" id="test">Test connection</button>
+              <button type="button" class="btn btn--primary" id="save">Save changes</button>
+            </div>
+          </div>
+
+          <div class="status" id="status" hidden></div>
+        </section>
+
+        <!-- ---------------------------------------------------------- -->
+        <!-- Defaults                                                   -->
+        <!-- ---------------------------------------------------------- -->
+        <section class="card" aria-labelledby="defaults-title">
+          <div class="card__head">
+            <h2 id="defaults-title">Panel defaults</h2>
+          </div>
+
+          <div class="field-grid field-grid--three">
+            <label class="field">
+              <span>Timeframe</span>
+              <select id="timeframe"></select>
+            </label>
+            <label class="field">
+              <span>Candles to predict</span>
+              <select id="candle-count"></select>
+            </label>
+            <label class="field">
+              <span>Live refresh</span>
+              <select id="live-interval"></select>
+            </label>
+          </div>
+
+          <label class="check-row">
+            <input type="checkbox" id="live-enabled" />
+            <span>Start Live Mode automatically when a page loads</span>
+          </label>
+
+          <p class="hint">
+            Alt+Shift+A shows or hides the panel on any page. Change the shortcut at
+            <code>chrome://extensions/shortcuts</code>.
+          </p>
+        </section>
+
+        <!-- ---------------------------------------------------------- -->
+        <!-- Privacy                                                    -->
+        <!-- ---------------------------------------------------------- -->
+        <section class="card" aria-labelledby="privacy-title">
+          <div class="card__head">
+            <h2 id="privacy-title">Privacy &amp; permissions</h2>
+          </div>
+          <ul class="list">
+            <li><b>Capture</b> — the screenshot is taken with <code>chrome.tabs.captureVisibleTab</code> only when you press Analyze or Live Mode fires.</li>
+            <li><b>Network</b> — the image and prompt go straight to the provider you selected. No analytics, no third-party servers, no telemetry.</li>
+            <li><b>Keys</b> — kept in local extension storage and injected into the HTTPS request header of that one provider.</li>
+            <li><b>Drawing</b> — results stay in the tab; Clear removes them instantly.</li>
+          </ul>
+          <p class="disclaimer">AI prediction is not financial advice. Trading involves risk.</p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>AI Chart Predictor <span id="footer-version">v1.0.0</span></span>
+        <span>Works on TradingView, Binance, Zerodha, Upstox, MT5 web and any other chart page.</span>
+      </footer>
+    </div>
+
+    <script src="utils/constants.js"></script>
+    <script src="utils/coords.js"></script>
+    <script src="utils/settings.js"></script>
+    <script src="providers/index.js"></script>
+    <script src="providers/openai.js"></script>
+    <script src="providers/openrouter.js"></script>
+    <script src="providers/gemini.js"></script>
+    <script src="providers/anthropic.js"></script>
+    <script src="providers/deepseek.js"></script>
+    <script src="providers/mistral.js"></script>
+    <script src="providers/groq.js"></script>
+    <script src="providers/xai.js"></script>
+    <script src="providers/custom.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
