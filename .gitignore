@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+test/__snapshots__/
+
+# Python bytecode (tools/generate-icons.py)
+__pycache__/
+*.pyc
